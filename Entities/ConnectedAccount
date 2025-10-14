@@ -1,0 +1,42 @@
+{
+  "name": "ConnectedAccount",
+  "type": "object",
+  "properties": {
+    "account_type": {
+      "type": "string",
+      "enum": [
+        "Stripe",
+        "PayPal",
+        "Plaid"
+      ],
+      "description": "Type of connected account"
+    },
+    "account_name": {
+      "type": "string",
+      "description": "Display name for the account"
+    },
+    "last_four": {
+      "type": "string",
+      "description": "Last 4 digits of account number"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether account is currently active"
+    },
+    "connected_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date account was connected"
+    },
+    "last_sync": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last time transactions were synced"
+    }
+  },
+  "required": [
+    "account_type",
+    "account_name"
+  ]
+}
