@@ -1,14 +1,14 @@
 
 import React, { useState, useEffect } from 'react';
-import { Organization } from '@/entities/Organization';
-import { Transaction } from '@/entities/Transaction';
-import { InvokeLLM } from '@/integrations/Core';
-import BottomNav from '@/components/BottomNav';
-import OrganizationCard from '@/components/OrganizationCard';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Organization } from 'entities/Organization';
+import { Transaction } from 'entities/Transaction';
+import { InvokeLLM } from 'integrations/Core';
+import BottomNav from 'components/BottomNav';
+import OrganizationCard from 'components/OrganizationCard';
+import { Button } from 'components/ui/button';
+import { Card } from 'components/ui/card';
+import { Badge } from 'components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from 'components/ui/tabs';
 import { Sparkles, Search, Filter } from 'lucide-react';
 
 export default function Discover() {
