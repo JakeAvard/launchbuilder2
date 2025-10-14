@@ -1,0 +1,48 @@
+{
+  "name": "RoundUp",
+  "type": "object",
+  "properties": {
+    "purchase_amount": {
+      "type": "number",
+      "description": "Original purchase amount"
+    },
+    "roundup_amount": {
+      "type": "number",
+      "description": "Amount rounded up (spare change)"
+    },
+    "merchant": {
+      "type": "string",
+      "description": "Merchant name"
+    },
+    "transaction_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date of purchase"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "donated",
+        "cancelled"
+      ],
+      "default": "pending",
+      "description": "Status of the round-up"
+    },
+    "donated_to_organization_id": {
+      "type": "string",
+      "description": "Organization that received the donation"
+    },
+    "donation_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the accumulated round-ups were donated"
+    }
+  },
+  "required": [
+    "purchase_amount",
+    "roundup_amount",
+    "merchant",
+    "transaction_date"
+  ]
+}
