@@ -1,0 +1,36 @@
+{
+  "name": "ImpactMetric",
+  "type": "object",
+  "properties": {
+    "organization_id": {
+      "type": "string",
+      "description": "Organization reporting this impact"
+    },
+    "metric_type": {
+      "type": "string",
+      "description": "Type of impact (e.g., meals, families, students)"
+    },
+    "metric_value": {
+      "type": "number",
+      "description": "Numerical value of impact"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the impact"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of impact report"
+    },
+    "icon": {
+      "type": "string",
+      "description": "Icon name for display"
+    }
+  },
+  "required": [
+    "organization_id",
+    "metric_type",
+    "metric_value"
+  ]
+}
