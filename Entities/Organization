@@ -1,0 +1,106 @@
+{
+  "name": "Organization",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the organization"
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL-friendly slug"
+    },
+    "logo_url": {
+      "type": "string",
+      "description": "URL to organization logo"
+    },
+    "hero_image_url": {
+      "type": "string",
+      "description": "Hero banner image"
+    },
+    "gallery_images": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of gallery image URLs"
+    },
+    "description": {
+      "type": "string",
+      "description": "Mission statement"
+    },
+    "mission_details": {
+      "type": "string",
+      "description": "Detailed mission information"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "Parish",
+        "Catholic Ministry",
+        "Catholic Education",
+        "Service Organization",
+        "Relief Organization",
+        "Healthcare",
+        "Community",
+        "Youth",
+        "Other"
+      ],
+      "description": "Organization category"
+    },
+    "is_catholic": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a Catholic organization"
+    },
+    "location": {
+      "type": "string",
+      "description": "City, State"
+    },
+    "address": {
+      "type": "string",
+      "description": "Full street address"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Contact phone number"
+    },
+    "email": {
+      "type": "string",
+      "description": "Contact email"
+    },
+    "website": {
+      "type": "string",
+      "description": "Organization website"
+    },
+    "mass_times": {
+      "type": "string",
+      "description": "Mass or service times (for parishes)"
+    },
+    "total_raised": {
+      "type": "number",
+      "description": "Total amount raised through platform"
+    },
+    "supporter_count": {
+      "type": "integer",
+      "description": "Number of supporters"
+    },
+    "impact_story": {
+      "type": "string",
+      "description": "Recent impact story or testimonial"
+    },
+    "is_verified": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether organization is verified"
+    },
+    "distance_from_south_bend": {
+      "type": "number",
+      "description": "Distance in miles from South Bend, IN"
+    }
+  },
+  "required": [
+    "name",
+    "category"
+  ]
+}
