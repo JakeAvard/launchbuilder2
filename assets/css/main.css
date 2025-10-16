@@ -2906,16 +2906,25 @@ input, select, textarea {
 			}
 
 	}
-#top-left-logo {
+
+
+#top-left-logo-link {
   position: fixed;
-  top: 15px;
-  left: 20px;
-  height: 40px;              /* adjust size */
-  z-index: 1000;             /* keeps it on top of all content */
+  top: 10px;
+  left: 15px;
+  z-index: 3000;               /* always stays above everything */
+}
+
+#top-left-logo {
+  height: 24px;                /* same size as ChatGPT’s logo */
+  width: auto;
+  opacity: 0.95;
   cursor: pointer;
-  transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
 #top-left-logo:hover {
-  opacity: 0.8;
+  opacity: 1;
+  transform: scale(1.05);
 }
+
