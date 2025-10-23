@@ -2916,7 +2916,7 @@ input, select, textarea {
 }
 
 #top-left-logo {
-  height: 24px;                /* same size as ChatGPT’s logo */
+  height: 30px;                /* same size as ChatGPT’s logo */
   width: auto;
   opacity: 0.95;
   cursor: pointer;
