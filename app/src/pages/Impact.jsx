@@ -1,0 +1,1 @@
+export default function Impact() { return <div><h2>Impact</h2><p>Round-up giving, reports, and year-end summaries here.</p></div> }

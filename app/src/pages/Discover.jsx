@@ -1,0 +1,1 @@
+export default function Discover() { return <div><h2>Discover Organizations</h2><p>AI optimized recommendations and categories here.</p></div> }

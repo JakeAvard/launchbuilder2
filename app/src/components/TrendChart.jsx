@@ -1,0 +1,1 @@
+export default function TrendChart() { return <div><p>Chart placeholder</p></div> }

@@ -1,0 +1,1 @@
+export default function Profile() { return <div><h2>Profile</h2><p>Giving goals, accounts, and settings here.</p></div> }

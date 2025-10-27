@@ -1,0 +1,1 @@
+export default function OrgCard({name}) { return <div><p>Organization: {name}</p></div> }

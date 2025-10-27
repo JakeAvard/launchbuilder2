@@ -1,0 +1,1 @@
+export default function Alerts() { return <div><h2>Alerts</h2><p>Milestones, recurring giving updates, new org alerts here.</p></div> }

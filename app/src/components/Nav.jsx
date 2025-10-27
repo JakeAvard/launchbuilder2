@@ -1,0 +1,1 @@
+import { Link } from 'react-router-dom'; export default function Nav() { return <nav><Link to='/home'>Home</Link> | <Link to='/discover'>Discover</Link> | <Link to='/impact'>Impact</Link> | <Link to='/alerts'>Alerts</Link> | <Link to='/profile'>Profile</Link></nav> }
