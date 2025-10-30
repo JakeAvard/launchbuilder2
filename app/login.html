@@ -16,8 +16,15 @@
       <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY"></div>
       <button id="loginBtn">Login</button>
       <button id="signupBtn">Sign Up</button>
+      if (action === "signup" && !result.error) {
+      await supabase.from("profiles").insert([
+    { id: result.data.user.id, full_name: "", organization: "" }
+  ]);
+}
+
     </div>
 
     <script type="module" src="/app/js/login.js"></script>
   </body>
 </html>
+
