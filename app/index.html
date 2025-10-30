@@ -5,10 +5,29 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>5-Page Donation Tracking App</title>
+    <link rel="stylesheet" crossorigin href="/app/assets/index-CtKuRfU1.css" />
+    <script type="module">
+      import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+      const supabase = createClient(
+        "https://YOUR_PROJECT_ID.supabase.co",
+        "YOUR_SUPABASE_PUBLIC_ANON_KEY"
+      );
+
+      // Check if user is logged in
+      const user = JSON.parse(localStorage.getItem("titherUser"));
+
+      if (!user) {
+        window.location.href = "/app/login.html";
+      } else {
+        document.addEventListener("DOMContentLoaded", () => {
+          const root = document.createElement("div");
+          root.id = "root";
+          document.body.appendChild(root);
+        });
+      }
+    </script>
     <script type="module" crossorigin src="/app/assets/index-BIa9CpI4.js"></script>
-    <link rel="stylesheet" crossorigin href="/app/assets/index-CtKuRfU1.css">
   </head>
-  <body>
-    <div id="root"></div>
-  </body>
+  <body></body>
 </html>
