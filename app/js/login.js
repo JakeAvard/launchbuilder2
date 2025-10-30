@@ -1,6 +1,11 @@
+// /app/js/login.js
 import { createClient } from "https://esm.sh/@supabase/supabase-js";
 
-const supabase = createClient("https://YOUR_PROJECT_ID.supabase.co", "YOUR_SUPABASE_PUBLIC_ANON_KEY");
+const supabase = createClient(
+  "https://iqeaysusoxnjvdipxsme.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlxZWF5c3Vzb3huanZkaXB4c21lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE4NDQ4MDksImV4cCI6MjA3NzQyMDgwOX0.TJuEkX7IWVK3eed7BcRWpOV60CVtEvZMbCR641udbqM"
+);
+
 
 // Optional: verify Turnstile (you can later move this to a Supabase Edge Function or backend route)
 async function verifyTurnstile(token) {
@@ -43,3 +48,4 @@ async function handleAuth(action) {
 
 document.getElementById("loginBtn").addEventListener("click", () => handleAuth("login"));
 document.getElementById("signupBtn").addEventListener("click", () => handleAuth("signup"));
+
