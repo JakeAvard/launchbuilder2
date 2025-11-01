@@ -6,27 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>5-Page Donation Tracking App</title>
     <link rel="stylesheet" crossorigin href="/app/assets/index-CtKuRfU1.css" />
-    <script type="module">
-      import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+   <script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-      const supabase = createClient(
-  "https://iqeaysusoxnjvdipxsme.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlxZWF5c3Vzb3huanZkaXB4c21lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE4NDQ4MDksImV4cCI6MjA3NzQyMDgwOX0.TJuEkX7IWVK3eed7BcRWpOV60CVtEvZMbCR641udbqM"
-);
+  const supabase = createClient(
+    "https://iqeaysusoxnjvdipxsme.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlxZWF5c3Vzb3huanZkaXB4c21lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE4NDQ4MDksImV4cCI6MjA3NzQyMDgwOX0.TJuEkX7IWVK3eed7BcRWpOV60CVtEvZMbCR641udbqM"
+  );
 
-      // Check if user is logged in
-      const user = JSON.parse(localStorage.getItem("titherUser"));
+  async function checkSession() {
+    const { data, error } = await supabase.auth.getSession();
 
-      if (!user) {
-        window.location.href = "/app/login.html";
-      } else {
-        document.addEventListener("DOMContentLoaded", () => {
-          const root = document.createElement("div");
-          root.id = "root";
-          document.body.appendChild(root);
-        });
-      }
-    </script>
+    if (!data.session) {
+      // No valid session — redirect to login
+      window.location.href = "/app/login.html";
+      return;
+    }
+
+    console.log("User is logged in:", data.session.user.email);
+
+    // Create app container when session confirmed
+    document.addEventListener("DOMContentLoaded", () => {
+      const root = document.createElement("div");
+      root.id = "root";
+      document.body.appendChild(root);
+    });
+  }
+
+  checkSession();
+</script>
+
     <script type="module" crossorigin src="/app/assets/index-BIa9CpI4.js"></script>
   </head>
   <body></body>
