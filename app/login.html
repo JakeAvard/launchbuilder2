@@ -7,74 +7,66 @@
     <link rel="stylesheet" href="/app/css/login.css" />
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   </head>
+
   <body>
     <div class="login-container">
       <h1>Welcome to Tither</h1>
       <p>Sign in or create your account</p>
+
       <input type="email" id="email" placeholder="Email" required />
       <input type="password" id="password" placeholder="Password" required />
+
       <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY"></div>
+
       <button id="loginBtn">Login</button>
       <button id="signupBtn">Sign Up</button>
-      if (action === "signup" && !result.error) {
-      await supabase.from("profiles").insert([
-    { id: result.data.user.id, full_name: "", organization: "" }
-  ]);
-}
-
     </div>
 
-    <script type="module" src="/app/js/login.js"></script>
     <script type="module">
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+      import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-  const supabaseUrl = 'https://iqeaysusoxnjvdipxsme.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlxZWF5c3Vzb3huanZkaXB4c21lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE4NDQ4MDksImV4cCI6MjA3NzQyMDgwOX0.TJuEkX7IWVK3eed7BcRWpOV60CVtEvZMbCR641udbqM';
-  const supabase = createClient(supabaseUrl, supabaseKey);
+      const supabaseUrl = 'https://iqeaysusoxnjvdipxsme.supabase.co';
+      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlxZWF5c3Vzb3huanZkaXB4c21lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE4NDQ4MDksImV4cCI6MjA3NzQyMDgwOX0.TJuEkX7IWVK3eed7BcRWpOV60CVtEvZMbCR641udbqM';
+      const supabase = createClient(supabaseUrl, supabaseKey);
 
-  const loginBtn = document.getElementById("loginBtn");
-  const signupBtn = document.getElementById("signupBtn");
+      const loginBtn = document.getElementById("loginBtn");
+      const signupBtn = document.getElementById("signupBtn");
 
-  async function handleAuth(action) {
-    const email = prompt("Enter your email:");
-    const password = prompt("Enter your password:");
+      async function handleAuth(action) {
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
 
-    if (!email || !password) {
-      alert("Email and password are required!");
-      return;
-    }
+        if (!email || !password) {
+          alert("Email and password are required!");
+          return;
+        }
 
-    if (action === "signup") {
-      const { data, error } = await supabase.auth.signUp({ email, password });
-      if (error) {
-        alert(error.message);
-      } else {
-        // Add a blank profile record for the new user
-        await supabase.from("profiles").insert([
-          { id: data.user.id, full_name: "", organization: "" }
-        ]);
-        alert("Sign up successful! Please check your email to confirm.");
+        if (action === "signup") {
+          const { data, error } = await supabase.auth.signUp({ email, password });
+          if (error) {
+            alert(error.message);
+          } else {
+            await supabase.from("profiles").insert([
+              { id: data.user.id, full_name: "", organization: "" }
+            ]);
+            alert("Sign up successful! Please confirm your email before logging in.");
+          }
+        }
+
+        if (action === "login") {
+          const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+          if (error) {
+            alert(error.message);
+          } else {
+            localStorage.setItem("supabase_session", JSON.stringify(data.session));
+            alert("Login successful!");
+            window.location.href = "/app/index.html";
+          }
+        }
       }
-    }
 
-    if (action === "login") {
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) {
-        alert(error.message);
-      } else {
-        alert("Login successful!");
-        // Example: redirect to your dashboard
-        window.location.href = "/app/index.html";
-      }
-    }
-  }
-
-  loginBtn.addEventListener("click", () => handleAuth("login"));
-  signupBtn.addEventListener("click", () => handleAuth("signup"));
-</script>
-
+      loginBtn.addEventListener("click", () => handleAuth("login"));
+      signupBtn.addEventListener("click", () => handleAuth("signup"));
+    </script>
   </body>
 </html>
-
-
-
