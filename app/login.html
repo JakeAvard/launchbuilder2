@@ -53,16 +53,17 @@
           }
         }
 
-        if (action === "login") {
-          const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-          if (error) {
-            alert(error.message);
-          } else {
-            localStorage.setItem("supabase_session", JSON.stringify(data.session));
-            alert("Login successful!");
-            window.location.href = "/app/index.html";
-          }
-        }
+       if (action === "login") {
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) {
+    alert(error.message);
+  } else {
+    localStorage.setItem("titherUser", JSON.stringify(data.session.user));
+    alert("Login successful!");
+    window.location.href = "/app/index.html";
+  }
+}
+
       }
 
       loginBtn.addEventListener("click", () => handleAuth("login"));
@@ -70,3 +71,4 @@
     </script>
   </body>
 </html>
+
