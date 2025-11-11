@@ -9,6 +9,13 @@
   </head>
 
   <body>
+    <!-- Sign Out Button -->
+    <div class="absolute top-4 right-4">
+      <button id="signOutBtn" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+        Sign Out
+      </button>
+    </div>
+
     <div id="root"></div>
 
     <script type="module">
@@ -20,6 +27,7 @@
 
       const supabase = createClient(supabaseUrl, supabaseKey);
 
+      // --- Verify session on page load ---
       async function verifySession() {
         const { data, error } = await supabase.auth.getSession();
 
@@ -39,6 +47,16 @@
       }
 
       verifySession();
+
+      // --- Sign Out Handler ---
+      document.getElementById("signOutBtn").addEventListener("click", async () => {
+        const { error } = await supabase.auth.signOut();
+        if (error) {
+          console.error("Error signing out:", error.message);
+        } else {
+          window.location.href = "/app/login.html";
+        }
+      });
     </script>
 
     <!-- React app bundle -->
