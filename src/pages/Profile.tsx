@@ -30,33 +30,53 @@ export default function Profile() {
   const [editing, setEditing] = useState(false);
   const [saved, setSaved] = useState(false);
 
-  // --- Load current user from Supabase Auth ---
+  // --- Load current user from Supabase Auth and sync profile ---
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchUserAndProfile = async () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      setUser(user);
-      if (user) loadProfile(user.id);
-    };
-    fetchUser();
-  }, []);
 
-  // --- Load profile data ---
-  const loadProfile = async (id: string) => {
-    try {
-      const { data, error } = await supabase
-        .from("profiles")
+      if (!user) return;
+
+      setUser(user);
+
+      // --- Upsert profile row for auth user ---
+      await supabase.from("user_profiles").upsert({
+        id: user.id,
+        email: user.email,
+        full_name: profile.full_name || "",
+        organization: profile.organization || "",
+        location: profile.location || "",
+      });
+
+      // --- Load profile data ---
+      const { data: profileData } = await supabase
+        .from("user_profiles")
         .select("*")
-        .eq("id", id)
+        .eq("id", user.id)
         .maybeSingle();
 
-      if (error) throw error;
-      if (data) setProfile(data);
-    } catch (err) {
-      console.error("Error loading profile:", err);
-    }
-  };
+      if (profileData) setProfile(profileData);
+
+      // --- Load round-up settings ---
+      const { data: roundData } = await supabase
+        .from("round_up_settings")
+        .select("*")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (roundData)
+        setRoundUpSettings({
+          enabled: roundData.enabled,
+          round_to: Number(roundData.round_to),
+          auto_donate: roundData.auto_donate,
+          accumulation_threshold: Number(roundData.accumulation_threshold),
+        });
+    };
+
+    fetchUserAndProfile();
+  }, []);
 
   // --- Save profile changes ---
   const saveProfile = async () => {
@@ -64,7 +84,7 @@ export default function Profile() {
 
     try {
       await supabase
-        .from("profiles")
+        .from("user_profiles")
         .update({
           full_name: profile.full_name,
           organization: profile.organization,
@@ -75,6 +95,17 @@ export default function Profile() {
         })
         .eq("id", user.id);
 
+      await supabase
+        .from("round_up_settings")
+        .upsert({
+          user_id: user.id,
+          enabled: roundUpSettings.enabled,
+          round_to: roundUpSettings.round_to,
+          auto_donate: roundUpSettings.auto_donate,
+          accumulation_threshold: roundUpSettings.accumulation_threshold,
+          updated_at: new Date().toISOString(),
+        });
+
       setSaved(true);
       setEditing(false);
       setTimeout(() => setSaved(false), 2500);
@@ -83,7 +114,6 @@ export default function Profile() {
     }
   };
 
-  // --- Example round-up calc ---
   const exampleRoundUp = calculateRoundUp(23.5, {
     enabled: roundUpSettings.enabled,
     round_to: roundUpSettings.round_to,
