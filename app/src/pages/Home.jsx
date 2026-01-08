@@ -1,1 +1,0 @@
-export default function Home() { return <div><h2>Home Page</h2><p>Dashboard summary and giving trends here.</p></div> }
