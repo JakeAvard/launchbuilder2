@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext, useContext } from "react";
-import { Switch, Route } from "wouter";
+import { Switch, Route, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -56,6 +56,7 @@ function Router() {
 function AppContent() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [successData, setSuccessData] = useState<{ name: string; slug: string } | null>(null);
+  const [_, setLocation] = useLocation();
 
   const { data: organization, isLoading, refetch } = useQuery<Organization>({
     queryKey: ["/api/current-organization"],
@@ -64,11 +65,19 @@ function AppContent() {
   const handleOnboardingComplete = (data: { name: string; slug: string }) => {
     setSuccessData(data);
     setShowSuccess(true);
+
+    // auto-dismiss success screen after 3s and redirect to giving page editor
+    setTimeout(() => {
+      setShowSuccess(false);
+      refetch();
+      setLocation("/giving-page");
+    }, 3000);
   };
 
   const handleDismissSuccess = () => {
     setShowSuccess(false);
     refetch();
+    setLocation("/giving-page");
   };
 
   if (isLoading) {
