@@ -74,3 +74,43 @@ Preferred communication style: Simple, everyday language.
 - `wouter` - Client-side routing
 - `zod` - Runtime schema validation
 - Full shadcn/ui Radix component suite (@radix-ui/*)
+
+## Deployment to Render with PostgreSQL
+
+### Steps to Deploy on Render:
+
+1. **Create PostgreSQL Database on Render**
+   - Go to Render Dashboard → New → PostgreSQL
+   - Choose a name (e.g., `tither-db`)
+   - Select region closest to users
+   - Copy the "Internal Database URL" after creation
+
+2. **Create Web Service**
+   - Go to Render Dashboard → New → Web Service
+   - Connect your GitHub/GitLab repository
+   - Build Command: `npm install && npm run build`
+   - Start Command: `npm start`
+
+3. **Configure Environment Variables**
+   - Add `DATABASE_URL` with your PostgreSQL connection string
+   - Add `SESSION_SECRET` with a secure random string
+   - Add `NODE_ENV=production`
+
+4. **Custom Domain (tither.us)**
+   - In Render Web Service Settings → Custom Domains
+   - Add `tither.us` and `www.tither.us`
+   - Update DNS records at your registrar:
+     - CNAME record pointing to your Render service URL
+   - Enable SSL (auto-provisioned by Render)
+
+5. **Run Database Migrations**
+   - After deployment, run: `npx drizzle-kit push`
+   - This syncs the schema to your PostgreSQL database
+
+### Environment Variables Required:
+- `DATABASE_URL` - PostgreSQL connection string
+- `SESSION_SECRET` - Secret for session encryption
+- `NODE_ENV` - Set to `production`
+
+### render.yaml Configuration
+The `render.yaml` file in the project root can be used for Infrastructure as Code deployment.
