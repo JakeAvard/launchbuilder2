@@ -12,6 +12,11 @@ export async function registerRoutes(
     res.json({ status: "ok", timestamp: new Date().toISOString() });
   });
 
+  app.post("/api/logout", (req, res) => {
+    res.clearCookie("connect.sid");
+    res.json({ success: true });
+  });
+
   app.get("/api/organization/:id", async (req, res) => {
     try {
       const org = await storage.getOrganization(req.params.id);
