@@ -1,6 +1,8 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import { sql } from "drizzle-orm";
 import { storage } from "./storage";
+import { db } from "./db";
 import { insertOrganizationSchema, insertFundSchema, insertDonorSchema, insertDonationSchema } from "@shared/schema";
 
 export async function registerRoutes(
@@ -10,6 +12,15 @@ export async function registerRoutes(
 
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok", timestamp: new Date().toISOString() });
+  });
+
+  app.get("/api/health/db", async (_req, res) => {
+    try {
+      const result = await db.execute(sql`SELECT NOW()`);
+      res.json({ ok: true, timestamp: new Date().toISOString() });
+    } catch (error) {
+      res.status(500).json({ ok: false, error: "Database connection failed" });
+    }
   });
 
   app.post("/api/logout", (req, res) => {

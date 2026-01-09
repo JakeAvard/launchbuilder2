@@ -1,6 +1,5 @@
 import { eq, desc, sql, and, gte } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/node-postgres";
-import pg from "pg";
+import { db } from "./db";
 import {
   type User, type InsertUser,
   type Organization, type InsertOrganization,
@@ -9,12 +8,6 @@ import {
   type Donation, type InsertDonation,
   users, organizations, funds, donors, donations
 } from "@shared/schema";
-
-const pool = new pg.Pool({
-  connectionString: process.env.DATABASE_URL,
-});
-
-export const db = drizzle(pool);
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
