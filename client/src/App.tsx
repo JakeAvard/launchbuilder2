@@ -5,6 +5,7 @@ import { QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/hooks/use-toast";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
 import { TopNav } from "@/components/TopNav";
 import { DonorTopNav } from "@/components/DonorTopNav";
 import { Dashboard } from "@/components/Dashboard";
@@ -12,7 +13,6 @@ import { GivingPageEditor } from "@/components/GivingPageEditor";
 import { DonorsList } from "@/components/DonorsList";
 import { SettingsPage } from "@/components/SettingsPage";
 import { SupportPage } from "@/components/SupportPage";
-import { OnboardingWizard } from "@/components/OnboardingWizard";
 import { SuccessScreen } from "@/components/SuccessScreen";
 import { PublicGivingPage } from "@/components/PublicGivingPage";
 import { RoleSelection } from "@/components/RoleSelection";
@@ -128,19 +128,16 @@ function AppContent() {
     }
   };
 
-  const handleOrgSignupComplete = (_data: { email: string; password: string }) => {
+  const handleOrgSignupComplete = (data: { email: string; password: string; organizationId: string; name: string; slug: string }) => {
     localStorage.setItem("tither_org_signed_up", "true");
     setShowOrgSignup(false);
+    setSuccessData({ name: data.name, slug: data.slug });
+    setShowSuccess(true);
     setRole("organization");
   };
 
   const handleBackToSelection = () => {
     setShowOrgSignup(false);
-  };
-
-  const handleOnboardingComplete = (data: { name: string; slug: string }) => {
-    setSuccessData(data);
-    setShowSuccess(true);
   };
 
   const handleDismissSuccess = async () => {
@@ -247,17 +244,6 @@ function AppContent() {
     );
   }
 
-  if (!organization && !showSuccess) {
-    return (
-      <Switch>
-        <Route path="/give/:slug" component={PublicGivingPage} />
-        <Route>
-          <OnboardingWizard onComplete={handleOnboardingComplete} />
-        </Route>
-      </Switch>
-    );
-  }
-
   if (showSuccess && successData) {
     return (
       <SuccessScreen
@@ -268,8 +254,21 @@ function AppContent() {
     );
   }
 
+  if (!organization) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="animate-pulse text-muted-foreground">Loading your organization...</div>
+          <Button variant="outline" onClick={handleLogout} data-testid="button-logout-fallback">
+            Start Over
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <OrganizationContext.Provider value={{ organization: organization || null, refetch }}>
+    <OrganizationContext.Provider value={{ organization, refetch }}>
       <AdminLayout onLogout={handleLogout}>
         <Switch>
           <Route path="/give/:slug" component={PublicGivingPage} />
