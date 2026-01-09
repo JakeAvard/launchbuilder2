@@ -33,16 +33,25 @@ Preferred communication style: Simple, everyday language.
 - **Build**: esbuild for production bundling with selective dependency bundling
 
 **Route Structure**:
+- `/api/health` - Basic health check
+- `/api/health/db` - Database connection health check
 - `/api/organization/:id` - Organization CRUD
 - `/api/organization/:id/funds` - Fund management
 - `/api/organization/:id/donors` - Donor queries
 - `/api/organization/:id/donations` - Donation records and stats
 - `/api/onboarding/complete` - Onboarding completion endpoint
 
+**User Flow**:
+- Landing page shows Role Selection ("Welcome to Tither") for new visitors
+- Organization flow: Role Selection → Signup Form → Onboarding Wizard → Dashboard
+- Donor flow: Role Selection → Onboarding (with skip option) → Dashboard
+- User role stored in localStorage (`tither_role`)
+
 ### Data Storage
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM with Zod schema validation
 - **Schema Location**: `shared/schema.ts` (shared between frontend and backend)
+- **Database Connection**: `server/db.ts` (centralized with SSL support for production)
 - **Migrations**: Managed via `drizzle-kit push`
 
 **Core Tables**:
