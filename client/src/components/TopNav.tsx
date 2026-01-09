@@ -1,9 +1,16 @@
 import { Link, useLocation } from "wouter";
-import { LayoutDashboard, FileText, Users, Settings, HelpCircle } from "lucide-react";
+import { LayoutDashboard, FileText, Users, Settings, HelpCircle, LogOut } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { TitherLogo } from "./Logo";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const navItems = [
   { label: "Dashboard", href: "/", icon: LayoutDashboard },
@@ -13,7 +20,11 @@ const navItems = [
   { label: "Support", href: "/support", icon: HelpCircle },
 ];
 
-export function TopNav() {
+interface TopNavProps {
+  onLogout?: () => void;
+}
+
+export function TopNav({ onLogout }: TopNavProps) {
   const [location] = useLocation();
 
   return (
@@ -44,9 +55,25 @@ export function TopNav() {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Avatar data-testid="button-user-avatar">
-            <AvatarFallback>PA</AvatarFallback>
-          </Avatar>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="rounded-full" data-testid="button-user-avatar">
+                <Avatar>
+                  <AvatarFallback>PA</AvatarFallback>
+                </Avatar>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem disabled className="text-muted-foreground">
+                Organization Admin
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={onLogout} data-testid="menu-logout">
+                <LogOut className="h-4 w-4 mr-2" />
+                Log out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </header>
