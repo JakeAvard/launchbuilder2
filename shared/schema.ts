@@ -104,3 +104,31 @@ export const insertUserSchema = createInsertSchema(users).omit({
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
+
+export const donorAccounts = pgTable("donor_accounts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id),
+  firstName: text("first_name"),
+  lastName: text("last_name"),
+  email: text("email").notNull().unique(),
+  phone: text("phone"),
+  enableRoundUp: boolean("enable_round_up").default(true),
+  roundUpAmount: text("round_up_amount").default("5"),
+  emailReceipts: boolean("email_receipts").default(true),
+  monthlyReport: boolean("monthly_report").default(true),
+  givingReminders: boolean("giving_reminders").default(false),
+  organizationUpdates: boolean("organization_updates").default(true),
+  anonymousByDefault: boolean("anonymous_by_default").default(false),
+  hideFromLeaderboards: boolean("hide_from_leaderboards").default(false),
+  allowOrganizationContact: boolean("allow_organization_contact").default(true),
+  onboardingComplete: boolean("onboarding_complete").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertDonorAccountSchema = createInsertSchema(donorAccounts).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertDonorAccount = z.infer<typeof insertDonorAccountSchema>;
+export type DonorAccount = typeof donorAccounts.$inferSelect;
